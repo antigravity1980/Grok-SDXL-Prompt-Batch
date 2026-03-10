@@ -69,7 +69,7 @@ class GrokLoraLoaderAutoText(GrokLoraLoaderBase):
                 "clip": ("CLIP",),
                 "used_loras": ("STRING", {"forceInput": True}),
                 "default_strength": ("FLOAT", {"default": 1.0, "min": 0.0, "max": 10.0, "step": 0.1}),
-                "lora_strengths": ("STRING", {"multiline": True, "dynamicPrompts": True, "default": "# Example:\n# Tape_people.safetensors: 1.2"}),
+                "lora_strengths": ("STRING", {"multiline": True, "dynamicPrompts": True, "default": "# Example:\n# lora_name: 1.2"}),
             }
         }
 
@@ -119,7 +119,7 @@ class GrokLoraLoaderAI(GrokLoraLoaderBase):
                 "model": ("MODEL",),
                 "clip": ("CLIP",),
                 "loras_with_ai_strength": ("STRING", {"forceInput": True}),
-                "strength_override": ("STRING", {"multiline": True, "dynamicPrompts": True, "default": "# Override AI's choice here:\n# princess_xl_v2.safetensors: 0.8"}),
+                "strength_override": ("STRING", {"multiline": True, "dynamicPrompts": True, "default": "# Override AI here:\n# lora_name: 0.8"}),
             }
         }
 
