@@ -1,0 +1,10 @@
+[
+  {"name": "beach_cinematic_v2.safetensors", "purpose": "cinematic beach photography", "trigger_words": ["beachcin", "golden hour"]},
+  {"name": "portrait_soft_light.safetensors", "purpose": "soft portrait lighting", "trigger_words": ["softlight", "studio"]},
+  {"name": "cyberpunk_neon_v1.safetensors", "purpose": "cyberpunk neon style", "trigger_words": ["cyberpunk", "neon"]},
+  {"name": "fantasy_landscape.safetensors", "purpose": "fantasy landscape", "trigger_words": ["fantasy", "magical"]},
+  {"name": "automotive_glossy.safetensors", "purpose": "glossy car photography", "trigger_words": ["glossy_auto", "car ad"]},
+  {"name": "anime_detailed_v3.safetensors", "purpose": "detailed anime style", "trigger_words": ["anime_det", "manga"]},
+  {"name": "nature_realistic.safetensors", "purpose": "realistic nature", "trigger_words": ["nature_real", "outdoor"]},
+  {"name": "urban_street.safetensors", "purpose": "urban street photography", "trigger_words": ["urban", "street"]}
+]

@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Private Keys and API Keys (EXTREMELY IMPORTANT)
+grok_api_key.txt
+civitai_api_key.txt
+*.key
+*.token
+
+# Caches and Node-specific data
+lora_metadata_cache.json
+*.log
+logterminal.txt
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Assistant-specific
+Task.md
+GIT_READY/
+GITHUB_PREPARED/
+workspace_metadata.json
