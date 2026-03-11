@@ -160,6 +160,15 @@ app.registerExtension({
                         ctx.font = "bold 13px Arial";
                         ctx.textAlign = "center";
                         ctx.fillText("✕ CLOSE", rect.x + rect.w - 45, rect.y + 30);
+                        
+                        // Dimensions overlay at bottom
+                        const dimText = `${img.naturalWidth} x ${img.naturalHeight}`;
+                        ctx.fillStyle = "rgba(0,0,0,0.6)";
+                        ctx.fillRect(rect.x + rect.w / 2 - 50, rect.y + rect.h - 30, 100, 25);
+                        ctx.fillStyle = "white";
+                        ctx.font = "bold 14px Arial";
+                        ctx.textAlign = "center";
+                        ctx.fillText(dimText, rect.x + rect.w / 2, rect.y + rect.h - 13);
                     }
                 } else {
                     // 3. GRID VIEW
