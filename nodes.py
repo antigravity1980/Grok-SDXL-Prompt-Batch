@@ -2,7 +2,7 @@ import json
 import os
 import random
 import folder_paths
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 import re
 from typing import Any, Dict, List, Tuple
@@ -324,7 +324,10 @@ class GrokImageSaverNoMetadata:
     def INPUT_TYPES(s):
         return {"required": 
                     {"images": ("IMAGE", ),
-                     "filename_prefix": ("STRING", {"default": "Grok_NoMeta"})},
+                     "filename_prefix": ("STRING", {"default": "Grok_Saved"})},
+                "optional": {
+                    "watermark_text": ("STRING", {"default": "", "multiline": False})
+                },
                 "hidden": {"prompt": "PROMPT", "extra_pnginfo": "EXTRA_PNGINFO"},
                 }
 
@@ -333,7 +336,7 @@ class GrokImageSaverNoMetadata:
     OUTPUT_NODE = True
     CATEGORY = "Grok/Image Saver"
 
-    def save_images(self, images, filename_prefix="Grok_NoMeta", prompt=None, extra_pnginfo=None):
+    def save_images(self, images, filename_prefix="Grok_Saved", watermark_text="", prompt=None, extra_pnginfo=None):
         filename_prefix += self.prefix_append
         full_output_folder, filename, counter, subfolder, filename_prefix = folder_paths.get_save_image_path(filename_prefix, self.output_dir, images[0].shape[1], images[0].shape[0])
         results = list()
@@ -344,6 +347,50 @@ class GrokImageSaverNoMetadata:
         for (batch_number, image) in enumerate(images):
             i = 255. * image.cpu().numpy()
             img = Image.fromarray(np.clip(i, 0, 255).astype(np.uint8))
+            
+            # --- WATERMARK LOGIC ---
+            if watermark_text and watermark_text.strip():
+                try:
+                    draw = ImageDraw.Draw(img)
+                    # Dynamic sizing: Font size is roughly 2% of the image width, min 16px
+                    font_size = max(16, int(img.width * 0.02))
+                    
+                    try:
+                        # Try to load a standard truetype font (works on most Windows systems)
+                        font = ImageFont.truetype("arial.ttf", font_size)
+                    except IOError:
+                        # Fallback to default if arial is missing
+                        font = ImageFont.load_default()
+                        
+                    text = watermark_text.strip()
+                    # Calculate text bounding box
+                    bbox = draw.textbbox((0, 0), text, font=font)
+                    text_width = bbox[2] - bbox[0]
+                    text_height = bbox[3] - bbox[1]
+                    
+                    # Position: Bottom Right with padding
+                    padding = int(font_size * 0.8)
+                    x = img.width - text_width - padding
+                    y = img.height - text_height - padding
+                    
+                    # Draw a subtle back shadow/outline for readability on any background
+                    shadow_color = (0, 0, 0, 180) # Semi-transparent black
+                    shadow_offset = max(1, int(font_size * 0.05))
+                    
+                    # Thick outline (8 directions)
+                    offsets = [
+                        (-shadow_offset, -shadow_offset), (0, -shadow_offset), (shadow_offset, -shadow_offset),
+                        (-shadow_offset, 0),                                   (shadow_offset, 0),
+                        (-shadow_offset, shadow_offset),  (0, shadow_offset),  (shadow_offset, shadow_offset)
+                    ]
+                    for dx, dy in offsets:
+                        draw.text((x + dx, y + dy), text, font=font, fill=shadow_color)
+                                
+                    # Main text (White with slight transparency)
+                    draw.text((x, y), text, font=font, fill=(255, 255, 255, 220))
+                except Exception as e:
+                    print(f"Grok Watermark Error: {str(e)}")
+            # -----------------------
             
             file = f"{filename}_{counter:05}_.png"
             full_path = os.path.join(full_output_folder, file)

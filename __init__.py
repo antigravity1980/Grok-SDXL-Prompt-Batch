@@ -16,7 +16,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "GrokLoraLoaderAutoText": "Grok Lora Loader (Auto-Text)",
     "GrokLoraLoaderAI": "Grok Lora Loader (AI Strategy)",
     "GrokBatchImageGallery": "Grok Batch Image Gallery",
-    "GrokImageSaverNoMetadata": "Grok Image Saver (No Metadata)",
+    "GrokImageSaverNoMetadata": "Grok Image Saver",
 }
 
 WEB_DIRECTORY = "./web"
