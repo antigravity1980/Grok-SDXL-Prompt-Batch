@@ -4,7 +4,9 @@ A professional-grade ComfyUI custom node package for batch prompt generation usi
 
 ## Features
 
-- **Grok SDXL Prompt Batch**: Generate thousands of high-quality, semantically rich prompts in one run.
+- **Dual Generator Engines**:
+  - **Grok SDXL Prompt Batch (Diverse)**: Mathematically enforces extreme subject diversity (cycles ages, ethnicities, hair, and body types automatically).
+  - **Grok SDXL Prompt Batch (Identical)**: Strictly enforces semantic duplicates for consistent character generation.
 - **Intelligent LoRA Selection**: Automatically identifies and applies the best LoRAs from your local folder based on the prompt's context.
 - **LoRA Ecosystem**:
   - **Variant A (Auto-Text)**: AI selects models, you set the strength.
