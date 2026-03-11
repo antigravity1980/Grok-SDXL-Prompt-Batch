@@ -1,4 +1,4 @@
-from .nodes import GrokSDXLPromptBatch, GrokSDXLPromptBatchIdentical, GrokBatchImageGallery
+from .nodes import GrokSDXLPromptBatch, GrokSDXLPromptBatchIdentical, GrokBatchImageGallery, GrokImageSaverNoMetadata
 from .lora_loaders import GrokLoraLoaderAutoText, GrokLoraLoaderAI
 
 NODE_CLASS_MAPPINGS = {
@@ -7,6 +7,7 @@ NODE_CLASS_MAPPINGS = {
     "GrokLoraLoaderAutoText": GrokLoraLoaderAutoText,
     "GrokLoraLoaderAI": GrokLoraLoaderAI,
     "GrokBatchImageGallery": GrokBatchImageGallery,
+    "GrokImageSaverNoMetadata": GrokImageSaverNoMetadata,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -15,6 +16,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "GrokLoraLoaderAutoText": "Grok Lora Loader (Auto-Text)",
     "GrokLoraLoaderAI": "Grok Lora Loader (AI Strategy)",
     "GrokBatchImageGallery": "Grok Batch Image Gallery",
+    "GrokImageSaverNoMetadata": "Grok Image Saver (No Metadata)",
 }
 
 WEB_DIRECTORY = "./web"
