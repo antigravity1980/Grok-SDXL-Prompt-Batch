@@ -473,3 +473,81 @@ class GrokTextBatchSplitter:
         return (prompts,)
 
 
+class GrokZImageTurboPromptBatch(GrokSDXLPromptBatch):
+    CATEGORY = "Grok/Prompt Generation"
+    
+    def _build_system_prompt(self, lora_mode, relevant, lora_indexer, seed_style):
+        parts = [
+            "You are an expert prompt engineer for the Z-Image Turbo model (based on Stable Diffusion).", 
+            "Your task is to create highly effective prompts tailored specifically for Z-Image Turbo based on the user's request.", 
+            "", 
+            "CRITICAL Z-IMAGE TURBO SYNTAX REQUIREMENTS:", 
+            "1. NO NEGATIVE PROMPTS USED: Z-Image pipelines do not use negative prompts. Therefore, you MUST include all exclusions and constraints directly in the positive prompt.",
+            "2. MANDATORY CONSTRAINTS TO ADD: Every single prompt MUST end with this exact string of constraints: 'sharp focus on the subject, clean detailed image, correct human anatomy, natural hands and fingers, no extra limbs, no text, no watermark, no logos, no motion blur, no grainy noise.'",
+            "3. Be specific and detailed. Describe the scene like a movie director. Do not use vague words like 'nice' or 'beautiful'.",
+            "4. Structure: Main Subject + Action, Setting & Environment, Lighting & Mood, Style & Quality.",
+            "5. NO token spam. Keep descriptions precise (80 to 200 words max).",
+            "6. Output ONLY the prompts, no numbering, no explanations or introductory text.",
+            "",
+            "SUBJECT & ENVIRONMENT DIVERSITY (CRITICAL & MANDATORY):",
+            "1. When generating batches with people, you absolutely MUST randomly cycle through physical traits, locations, camera angles, and poses.",
+            "2. LOCATION/BACKGROUND: Randomly alternate the setting for each prompt.",
+            "3. SHOT TYPE & ANGLE: Randomly alternate between extreme close-up, portrait, cowboy shot, full body, low angle, high angle.",
+            "4. POSE: Randomly alternate poses (e.g., sitting, running, looking over shoulder).",
+            "5. NO DUPLICATES: Every prompt in the batch MUST use a unique combination of location, shot type, pose, and physical traits.",
+            "",
+            "LORA RULES (MAXIMUM PRIORITY):",
+            "1. Use the CATALOG below as the source of truth.",
+            "2. You MUST append tracking tags at the very end of the prompt in this exact format: <lora:filename> or <lora:filename:weight>.",
+            "3. Always include matching trigger words from the catalog naturally within the prompt.",
+        ]
+        
+        if lora_mode != "off" and relevant:
+            lora_context = lora_indexer.get_lora_context(relevant, lora_mode)
+            parts.append("\n" + lora_context)
+            
+        if seed_style:
+            parts.append("")
+            parts.append("STYLE CONSISTENCY: Keep the overall style consistent across all prompts in this batch, but vary the specific scene details.")
+            
+        return "\n".join(parts)
+
+
+class GrokZImageTurboPromptBatchIdentical(GrokSDXLPromptBatchIdentical):
+    CATEGORY = "Grok/Prompt Generation"
+
+    def _build_system_prompt(self, lora_mode, relevant, lora_indexer, seed_style):
+        parts = [
+            "You are an expert prompt engineer for the Z-Image Turbo model (based on Stable Diffusion).", 
+            "Your task is to create highly effective prompts tailored specifically for Z-Image Turbo based on the user's request.", 
+            "", 
+            "CRITICAL Z-IMAGE TURBO SYNTAX REQUIREMENTS:", 
+            "1. NO NEGATIVE PROMPTS USED: Z-Image pipelines do not use negative prompts. Therefore, you MUST include all exclusions and constraints directly in the positive prompt.",
+            "2. MANDATORY CONSTRAINTS TO ADD: Every single prompt MUST end with this exact string of constraints: 'sharp focus on the subject, clean detailed image, correct human anatomy, natural hands and fingers, no extra limbs, no text, no watermark, no logos, no motion blur, no grainy noise.'",
+            "3. Be specific and detailed. Structure: Main Subject + Action, Setting & Environment, Lighting & Mood, Style & Quality.",
+            "4. Output ONLY the prompts, no numbering, no explanations.",
+            "",
+            "SUBJECT UNIFORMITY (CRITICAL & MANDATORY):",
+            "1. When generating batches, you absolutely MUST make all prompts almost completely IDENTICAL.",
+            "2. Do NOT randomly vary hair color, ethnicity, body type, age, clothing, or background.",
+            "3. Every single prompt in the batch should describe the exact same person and the exact same scene.",
+            "4. You may make only infinitesimal microscopic changes (like swapping synonyms) so the strings aren't literal duplicates.",
+            "",
+            "LORA RULES (MAXIMUM PRIORITY):",
+            "1. Use the CATALOG below as the source of truth.",
+            "2. You MUST append tracking tags at the very end of the prompt in this exact format: <lora:filename> or <lora:filename:weight>.",
+            "3. Always include matching trigger words from the catalog naturally within the prompt.",
+        ]
+        
+        if lora_mode != "off" and relevant:
+            lora_context = lora_indexer.get_lora_context(relevant, lora_mode)
+            parts.append("\n" + lora_context)
+            
+        if seed_style:
+            parts.append("")
+            parts.append("STYLE CONSISTENCY: Keep the overall style consistent across all prompts in this batch.")
+            
+        return "\n".join(parts)
+
+
+

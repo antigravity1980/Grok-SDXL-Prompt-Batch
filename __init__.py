@@ -1,4 +1,4 @@
-from .nodes import GrokSDXLPromptBatch, GrokSDXLPromptBatchIdentical, GrokBatchImageGallery, GrokImageSaverNoMetadata, GrokSDXLAspectRatio, GrokTextBatchSplitter
+from .nodes import GrokSDXLPromptBatch, GrokSDXLPromptBatchIdentical, GrokBatchImageGallery, GrokImageSaverNoMetadata, GrokSDXLAspectRatio, GrokTextBatchSplitter, GrokZImageTurboPromptBatch, GrokZImageTurboPromptBatchIdentical
 from .lora_loaders import GrokLoraLoaderAutoText, GrokLoraLoaderAI
 
 NODE_CLASS_MAPPINGS = {
@@ -10,6 +10,8 @@ NODE_CLASS_MAPPINGS = {
     "GrokImageSaverNoMetadata": GrokImageSaverNoMetadata,
     "GrokSDXLAspectRatio": GrokSDXLAspectRatio,
     "GrokTextBatchSplitter": GrokTextBatchSplitter,
+    "GrokZImageTurboPromptBatch": GrokZImageTurboPromptBatch,
+    "GrokZImageTurboPromptBatchIdentical": GrokZImageTurboPromptBatchIdentical,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -21,6 +23,8 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "GrokImageSaverNoMetadata": "Grok Image Saver",
     "GrokSDXLAspectRatio": "Grok SDXL Aspect Ratio",
     "GrokTextBatchSplitter": "Grok Text Batch Splitter",
+    "GrokZImageTurboPromptBatch": "Grok Z-Image Turbo Prompt Batch (Diverse)",
+    "GrokZImageTurboPromptBatchIdentical": "Grok Z-Image Turbo Prompt Batch (Identical)",
 }
 
 WEB_DIRECTORY = "./web"
