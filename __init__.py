@@ -1,15 +1,17 @@
-from .nodes import GrokSDXLPromptBatch, GrokBatchImageGallery
+from .nodes import GrokSDXLPromptBatch, GrokSDXLPromptBatchIdentical, GrokBatchImageGallery
 from .lora_loaders import GrokLoraLoaderAutoText, GrokLoraLoaderAI
 
 NODE_CLASS_MAPPINGS = {
     "GrokSDXLPromptBatch": GrokSDXLPromptBatch,
+    "GrokSDXLPromptBatchIdentical": GrokSDXLPromptBatchIdentical,
     "GrokLoraLoaderAutoText": GrokLoraLoaderAutoText,
     "GrokLoraLoaderAI": GrokLoraLoaderAI,
     "GrokBatchImageGallery": GrokBatchImageGallery,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "GrokSDXLPromptBatch": "Grok SDXL Prompt Batch",
+    "GrokSDXLPromptBatch": "Grok SDXL Prompt Batch (Diverse)",
+    "GrokSDXLPromptBatchIdentical": "Grok SDXL Prompt Batch (Identical)",
     "GrokLoraLoaderAutoText": "Grok Lora Loader (Auto-Text)",
     "GrokLoraLoaderAI": "Grok Lora Loader (AI Strategy)",
     "GrokBatchImageGallery": "Grok Batch Image Gallery",

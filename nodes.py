@@ -210,6 +210,68 @@ class GrokSDXLPromptBatch:
             
         return "\n".join(parts)
 
+class GrokSDXLPromptBatchIdentical(GrokSDXLPromptBatch):
+    CATEGORY = "Grok/Prompt Generation"
+    RETURN_TYPES = ("STRING", "INT", "STRING", "STRING", "STRING", "STRING")
+    RETURN_NAMES = ("prompts_text", "count_generated", "debug_info", "lora_debug", "used_loras", "loras_with_ai_strength")
+    FUNCTION = "generate_prompts"
+    OUTPUT_NODE = True
+    
+    @classmethod
+    def INPUT_TYPES(cls):
+        types = super().INPUT_TYPES()
+        required = dict(types["required"])
+        optional = dict(types["optional"])
+        
+        required["user_task"] = ("STRING", {"multiline": True, "default": "Generate 10 prompts of the EXACT SAME character"})
+        optional["deduplicate"] = ("BOOLEAN", {"default": False})
+        
+        return {
+            "required": required,
+            "optional": optional
+        }
+
+    def _build_system_prompt(self, lora_mode, relevant, lora_indexer, seed_style):
+        parts = [
+            "You are an expert prompt engineer for Stable Diffusion XL (SDXL).", 
+            "Your task is to create highly effective prompts for SDXL based on the user's request.", 
+            "", 
+            "CRITICAL SDXL SYNTAX REQUIREMENTS:", 
+            "1. DO NOT use natural language sentences (like 'A picture of a...').",
+            "2. Use a comma-separated list of tags and keywords (e.g. '1girl, beautiful lighting, cinematic, ...').",
+            "3. Emphasize important elements by enclosing them in parentheses with weights, e.g., (masterpiece:1.2), (detailed:1.3).",
+            "4. Start with the main subject, follow with details, environment, lighting, and style.",
+            "5. NO token spam. Keep descriptions precise.",
+            "6. Output ONLY the prompts, no numbering, no explanations or introductory text.",
+            "",
+            "SUBJECT UNIFORMITY (CRITICAL & MANDATORY):",
+            "1. When generating batches, you absolutely MUST make all prompts almost completely IDENTICAL.",
+            "2. Do NOT randomly vary hair color, ethnicity, body type, age, clothing, or background.",
+            "3. Every single prompt in the batch should describe the exact same person and the exact same scene.",
+            "4. Keep the core subject constraints entirely constant so the images generated look like the same person.",
+            "5. You may make only infinitesimal microscopic changes (like swapping synonyms or changing tag order) so the text strings aren't 100% literal duplicates, but the semantic meaning MUST remain identical.",
+            "",
+            "LORA SELECTION RULES (MAXIMUM PRIORITY):",
+            "1. Below is a CATALOG of available LoRAs. You MUST use it as the source of truth.",
+            "2. SEMANTIC MAPPING: If the user's request mentions or implies a subject, style, or character that exists in the catalog, YOU MUST USE THAT LoRA.",
+            "3. IGNORE USER TRIGGER NAMES: If the user provides their own trigger words, you MUST ignore their version and USE THE CATALOG TRIGGERS EXACTLY.",
+            "4. OUTPUT FORMAT: Each prompt MUST be a comma-separated list of SDXL tags. Include the catalog trigger words naturally but literally within that list.",
+            "5. NO EXCEPTIONS: If a LoRA concept is in the catalog and matches the user's intent, its trigger words MUST be present in the output.",
+            "6. TRACKING TAGS (CRITICAL): For EVERY LoRA you decide to use from the catalog, you MUST append a tracking tag at the very end of the prompt in this exact format: <lora:filename> (for example: <lora:tape_people.safetensors>).",
+            "7. TRACKING TAGS STRENGTH: If you feel a specific LoRA needs a different strength (e.g., 0.6 or 1.2), format the tracking tag like this: <lora:filename:0.6>.",
+            "8. You must include these <lora:...> tracking tags even if the LoRA has no required trigger words.",
+        ]
+        
+        if lora_mode != "off" and relevant:
+            lora_context = lora_indexer.get_lora_context(relevant, lora_mode)
+            parts.append("\n" + lora_context)
+            
+        if seed_style:
+            parts.append("")
+            parts.append("STYLE CONSISTENCY: Keep the overall style consistent across all prompts in this batch.")
+            
+        return "\n".join(parts)
+
 class GrokBatchImageGallery:
     @classmethod
     def INPUT_TYPES(s):
