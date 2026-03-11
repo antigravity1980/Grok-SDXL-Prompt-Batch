@@ -12,6 +12,7 @@ A professional-grade ComfyUI custom node package for batch prompt generation usi
   - **Variant A (Auto-Text)**: AI selects models, you set the strength.
   - **Variant B (AI Strategy)**: AI selects models AND their ideal application strength.
 - **V2 Batch Sync**: Automatically synchronizes your requested prompt count with ComfyUI's native batch counter (supports V1 and the new V2/1.39+ frontend).
+- **Grok Image Saver (No Metadata)**: Securely saves your generation outputs while strictly stripping away all embedded ComfyUI workflow JSON metadata, protecting your proprietary settings.
 - **Premium Gallery**: An interactive image grid with click-to-zoom history.
 
 ## Installation
