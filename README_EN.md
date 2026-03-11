@@ -13,6 +13,7 @@ A professional-grade ComfyUI custom node package for batch prompt generation usi
   - **Variant B (AI Strategy)**: AI selects models AND their ideal application strength.
 - **V2 Batch Sync**: Automatically synchronizes your requested prompt count with ComfyUI's native batch counter (supports V1 and the new V2/1.39+ frontend).
 - **Grok Image Saver**: Securely saves outputs by strictly stripping embedded ComfyUI workflow metadata. Also includes an optional, dynamically scaling `watermark_text` overlay for the bottom-right corner to protect your brand.
+- **Grok SDXL Aspect Ratio**: A helper node that visually outputs optimized integer dimensions (Width/Height) for SDXL `Empty Latent Image` nodes using user-friendly pictograms (e.g., 📱 9:16 Portrait, 🔳 1:1 Square).
 - **Premium Gallery**: An interactive image grid with click-to-zoom history.
 
 ## Installation

@@ -406,3 +406,40 @@ class GrokImageSaverNoMetadata:
             counter += 1
 
         return { "ui": { "images": results } }
+
+class GrokSDXLAspectRatio:
+    CATEGORY = "Grok/Image Options"
+    RETURN_TYPES = ("INT", "INT")
+    RETURN_NAMES = ("width", "height")
+    FUNCTION = "get_resolution"
+    
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "aspect_ratio": ([
+                    "🔳 1:1 (1024 x 1024)",
+                    "🖥️ 16:9 (1344 x 768) Widescreen",
+                    "📱 9:16 (768 x 1344) Portrait",
+                    "🖼️ 3:2 (1216 x 832) Landscape",
+                    "📝 2:3 (832 x 1216) Vertical",
+                    "🎦 21:9 (1536 x 640) Cinematic",
+                    "📸 4:3 (1152 x 896) Standard Camera"
+                ], {"default": "🔳 1:1 (1024 x 1024)"}),
+            }
+        }
+        
+    def get_resolution(self, aspect_ratio):
+        resolutions = {
+            "🔳 1:1 (1024 x 1024)": (1024, 1024),
+            "🖥️ 16:9 (1344 x 768) Widescreen": (1344, 768),
+            "📱 9:16 (768 x 1344) Portrait": (768, 1344),
+            "🖼️ 3:2 (1216 x 832) Landscape": (1216, 832),
+            "📝 2:3 (832 x 1216) Vertical": (832, 1216),
+            "🎦 21:9 (1536 x 640) Cinematic": (1536, 640),
+            "📸 4:3 (1152 x 896) Standard Camera": (1152, 896)
+        }
+        # Default to 1024x1024 if something goes wrong
+        width, height = resolutions.get(aspect_ratio, (1024, 1024))
+        return (width, height)
+
