@@ -143,7 +143,9 @@ class GrokSDXLPromptBatch:
                 
                 # Replace the original processed list with our clean one
                 processed = final_processed_prompts
-                prompts_text = PromptFormatter.join(processed)
+                # We do NOT join them into one string anymore.
+                # We return the list (processed) so ComfyUI treats it as list-batching.
+                prompts_text = processed
 
             used_loras_json = json.dumps(used_loras_list)
             ai_strength_json = json.dumps(ai_strength_list)
@@ -164,7 +166,7 @@ class GrokSDXLPromptBatch:
                 ld = lora_indexer.get_scanned_loras_report() if 'lora_indexer' in locals() else "Indexer not initialized"
             except:
                 ld = "Error getting LoRA report"
-            raise RuntimeError(f"Grok Error: {str(e)}") from e
+            return (["Error generating prompts."], 0, json.dumps(debug, ensure_ascii=False), ld, "[]", "[]") 
     
     def _build_system_prompt(self, lora_mode, relevant, lora_indexer, seed_style):
         parts = [
