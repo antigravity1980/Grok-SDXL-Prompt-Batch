@@ -1,4 +1,4 @@
-from .nodes import GrokSDXLPromptBatch, GrokSDXLPromptBatchIdentical, GrokBatchImageGallery, GrokImageSaverNoMetadata, GrokSDXLAspectRatio
+from .nodes import GrokSDXLPromptBatch, GrokSDXLPromptBatchIdentical, GrokBatchImageGallery, GrokImageSaverNoMetadata, GrokSDXLAspectRatio, GrokTextBatchSplitter
 from .lora_loaders import GrokLoraLoaderAutoText, GrokLoraLoaderAI
 
 NODE_CLASS_MAPPINGS = {
@@ -9,6 +9,7 @@ NODE_CLASS_MAPPINGS = {
     "GrokBatchImageGallery": GrokBatchImageGallery,
     "GrokImageSaverNoMetadata": GrokImageSaverNoMetadata,
     "GrokSDXLAspectRatio": GrokSDXLAspectRatio,
+    "GrokTextBatchSplitter": GrokTextBatchSplitter,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -19,6 +20,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "GrokBatchImageGallery": "Grok Batch Image Gallery",
     "GrokImageSaverNoMetadata": "Grok Image Saver",
     "GrokSDXLAspectRatio": "Grok SDXL Aspect Ratio",
+    "GrokTextBatchSplitter": "Grok Text Batch Splitter",
 }
 
 WEB_DIRECTORY = "./web"

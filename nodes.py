@@ -143,9 +143,7 @@ class GrokSDXLPromptBatch:
                 
                 # Replace the original processed list with our clean one
                 processed = final_processed_prompts
-                # We do NOT join them into one string anymore.
-                # We return the list (processed) so ComfyUI treats it as list-batching.
-                prompts_text = processed
+                prompts_text = PromptFormatter.join(processed)
 
             used_loras_json = json.dumps(used_loras_list)
             ai_strength_json = json.dumps(ai_strength_list)
@@ -166,7 +164,7 @@ class GrokSDXLPromptBatch:
                 ld = lora_indexer.get_scanned_loras_report() if 'lora_indexer' in locals() else "Indexer not initialized"
             except:
                 ld = "Error getting LoRA report"
-            return (["Error generating prompts."], 0, json.dumps(debug, ensure_ascii=False), ld, "[]", "[]") 
+            return ("Error generating prompts.", 0, json.dumps(debug, ensure_ascii=False), ld, "[]", "[]") 
     
     def _build_system_prompt(self, lora_mode, relevant, lora_indexer, seed_style):
         parts = [
@@ -447,4 +445,29 @@ class GrokSDXLAspectRatio:
         # Default to 1024x1024 if something goes wrong
         width, height = resolutions.get(aspect_ratio, (1024, 1024))
         return (width, height)
+
+class GrokTextBatchSplitter:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "text": ("STRING", {"forceInput": True}),
+            }
+        }
+    
+    RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("text_list",)
+    OUTPUT_IS_LIST = (True,)
+    FUNCTION = "split"
+    CATEGORY = "Grok/Utils"
+
+    def split(self, text):
+        # Split by double newline (our standard delimiter)
+        # Filter out empty strings
+        prompts = [p.strip() for p in text.split('\n\n') if p.strip()]
+        if not prompts:
+            prompts = [""] # Fallback
+            
+        return (prompts,)
+
 
